@@ -1,16 +1,14 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home/Home";
-import ProductsList from "./pages/Products/ProductsList";
+import { Link, Outlet } from "react-router-dom";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/products" element={<ProductsList />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/product'>Product</Link>
+      </nav>
+      <Outlet />
+    </>
   );
 }
 
