@@ -1,54 +1,48 @@
-# React + TypeScript + Vite
+# 🌙 Luna Sphere – E-commerce Site for Jewellery and Accessories
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Luna Sphere** is a modern and elegant e-commerce website dedicated to showcasing and selling handcrafted jewellery and accessories. Built with a user-first approach, it offers a seamless online shopping experience with beautiful product displays, secure checkout, and responsive design.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🛍️ Browse and filter jewellery and accessories by category
+- 🔍 Advanced product search and sorting options
+- 🧾 Product detail pages with multiple images, descriptions, and pricing
+- 🛒 Shopping cart with quantity management
+- 🔐 Secure checkout system (with dummy or integrated payment support)
+- 👤 User authentication (register/login/logout)
+- 📦 Order tracking (if implemented)
+- 📱 Fully responsive and mobile-friendly
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## 🛠️ Tech Stack
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+**Frontend:**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- HTML5, CSS3, TypeScript
+- React.js
+- Tailwind CSS with shadcn comp library
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+**Backend:**
+
+- ....
+- MongoDB / MySQL _(or your database)_
+
+**Other:**
+
+- Khalti/ Esewa (for payment gateway)
+- Cloudinary / Firebase (for image storage)
+- Git & GitHub (for version control)
+- Gemini (for automatic product description)
+
+---
+
+## 🚀 Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/ShankarBirTamang/project_luna
+   cd project_luna
+   ```
