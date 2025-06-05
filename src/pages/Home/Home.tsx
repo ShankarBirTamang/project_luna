@@ -6,10 +6,30 @@ import SpecialOffer from "@/components/ui/SpecialOffer";
 
 const Home = () => {
   const featuredCategories = [
-    { id: 1, name: "Necklaces", image: "/images/categories/necklaces.jpg" },
-    { id: 2, name: "Rings", image: "/images/categories/rings.jpg" },
-    { id: 3, name: "Earrings", image: "/images/categories/earrings.jpg" },
-    { id: 4, name: "Bracelets", image: "/images/categories/bracelets.jpg" },
+    {
+      id: 1,
+      name: "Necklaces",
+      image: "/images/categories/necklaces.jpg",
+      slug: "necklaces",
+    },
+    {
+      id: 2,
+      name: "Rings",
+      image: "/images/categories/rings.jpg",
+      slug: "rings",
+    },
+    {
+      id: 3,
+      name: "Earrings",
+      image: "/images/categories/earrings.jpg",
+      slug: "earrings",
+    },
+    {
+      id: 4,
+      name: "Bracelets",
+      image: "/images/categories/bracelets.jpg",
+      slug: "bracelets",
+    },
   ];
 
   const newArrivals = [
@@ -18,24 +38,28 @@ const Home = () => {
       name: "Diamond Moon Necklace",
       price: 299.99,
       image: "/images/products/necklace1.jpg",
+      slug: "diamond-moon-necklace",
     },
     {
       id: 2,
       name: "Pearl Drop Earrings",
       price: 149.99,
       image: "/images/products/earrings1.jpg",
+      slug: "pearl-drop-earrings",
     },
     {
       id: 3,
       name: "Gold Band Ring",
       price: 199.99,
       image: "/images/products/ring1.jpg",
+      slug: "gold-band-ring",
     },
     {
       id: 4,
       name: "Silver Chain Bracelet",
       price: 89.99,
       image: "/images/products/bracelet1.jpg",
+      slug: "silver-chain-bracelet",
     },
   ];
 

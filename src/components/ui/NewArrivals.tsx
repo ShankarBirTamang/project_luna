@@ -1,10 +1,12 @@
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Product {
   id: number;
   name: string;
   price: number;
   image: string;
+  slug?: string;
 }
 
 interface NewArrivalsProps {
@@ -12,6 +14,13 @@ interface NewArrivalsProps {
 }
 
 const NewArrivals: FC<NewArrivalsProps> = ({ products }) => {
+  const navigate = useNavigate();
+
+  const handleProductClick = (product: Product) => {
+    // Navigate to product detail page using slug or id
+    navigate(`/products/${product.slug || product.id}`);
+  };
+
   return (
     <section className="bg-accent/30 py-16">
       <div className="container">
@@ -20,7 +29,15 @@ const NewArrivals: FC<NewArrivalsProps> = ({ products }) => {
           {products.map((product) => (
             <div
               key={product.id}
-              className="group cursor-pointer rounded-lg bg-background p-4 shadow-sm transition-shadow hover:shadow-md"
+              className="group cursor-pointer rounded-lg bg-background p-4 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg"
+              onClick={() => handleProductClick(product)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  handleProductClick(product);
+                }
+              }}
             >
               <div className="aspect-square overflow-hidden rounded-lg">
                 <img
@@ -30,7 +47,9 @@ const NewArrivals: FC<NewArrivalsProps> = ({ products }) => {
                 />
               </div>
               <div className="mt-4">
-                <h3 className="text-lg font-semibold">{product.name}</h3>
+                <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
+                  {product.name}
+                </h3>
                 <p className="mt-2 text-primary">${product.price}</p>
               </div>
             </div>
