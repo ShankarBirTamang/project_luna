@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../button";
 import {
   DropdownMenu,
@@ -28,13 +29,14 @@ interface NavLink {
 }
 
 export function Header() {
+  const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<{
     name: string;
     profileImage?: string;
   } | null>({
-    name: "Sankar Bir",
+    name: "John Doe",
     profileImage: "/profile.jpg",
   });
   const [cartItems] = useState(3);
@@ -73,11 +75,7 @@ export function Header() {
 
   const handleLogout = () => {
     setUser(null);
-    // Add logout logic here
-  };
-
-  const navigate = (path: string) => {
-    window.location.href = path;
+    navigate("/");
   };
 
   return (

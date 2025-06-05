@@ -3,10 +3,9 @@ import Home from "@/pages/Home/Home";
 import ProductsList from "@/pages/Products/ProductsList";
 import { createBrowserRouter } from "react-router-dom";
 
-
 export const rootRouter = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <App />,
     // errorElement: <ErrorPage />,
     children: [
@@ -16,9 +15,9 @@ export const rootRouter = createBrowserRouter([
         // loader: () => fetchData()
       },
       {
-        path: '/product',
-        element: <ProductsList />
-      }
-    ]
-  }
-])
+        path: "/products",
+        element: <ProductsList />,
+      },
+    ],
+  },
+]);
