@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "../button";
 import {
   DropdownMenu,
@@ -15,7 +15,9 @@ import {
   X,
   LogOut,
   ShoppingCart,
+  ChevronDown,
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface NavLink {
   path: string;
@@ -27,15 +29,25 @@ interface NavLink {
 
 export function Header() {
   const [darkMode, setDarkMode] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useState<{
     name: string;
     profileImage?: string;
   } | null>({
-    name: "John Doe",
+    name: "Sankar Bir",
     profileImage: "/profile.jpg",
   });
   const [cartItems] = useState(3);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navLinks: NavLink[] = [
     { path: "/", label: "Home", icon: <Home size={16} /> },
@@ -70,35 +82,53 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b ${darkMode ? "dark" : ""}`}
+      className={cn(
+        "sticky top-0 z-50 w-full transition-all duration-300",
+        scrolled
+          ? "bg-background/80 backdrop-blur-lg shadow-sm"
+          : "bg-background",
+        darkMode ? "dark" : ""
+      )}
     >
-      <div className="container flex h-16 items-center justify-between bg-background">
+      <div className="container flex h-16 items-center justify-between">
         {/* Logo */}
         <div
-          className="flex items-center gap-2 cursor-pointer"
+          className="flex items-center gap-3 cursor-pointer group"
           onClick={() => navigate("/")}
         >
-          <img src="/logo.png" alt="Logo" className="h-8 w-auto" />
-          <span className="font-bold">Jewellery</span>
+          <div className="relative h-10 w-10 overflow-hidden rounded-full bg-primary/10">
+            <img
+              src="/logo.png"
+              alt="Logo"
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+            />
+          </div>
+          <span className="text-lg font-bold tracking-tight">
+            Luna
+            <span className="text-primary">Sphere</span>
+          </span>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="hidden items-center gap-8 md:flex">
           {navLinks.map((link) => {
             if (link.isAuth && !user) return null;
             return (
               <div
                 key={link.path}
-                className="text-sm font-medium transition-colors hover:text-primary flex items-center gap-1 cursor-pointer"
+                className="group relative text-sm font-medium"
                 onClick={() => navigate(link.path)}
               >
-                {link.icon}
-                <span>{link.label}</span>
-                {link.notification && cartItems > 0 && (
-                  <span className="ml-1 h-4 w-4 rounded-full bg-primary text-xs flex items-center justify-center text-primary-foreground">
-                    {cartItems}
-                  </span>
-                )}
+                <div className="flex cursor-pointer items-center gap-1.5 transition-colors hover:text-primary">
+                  {link.icon}
+                  <span>{link.label}</span>
+                  {link.notification && cartItems > 0 && (
+                    <span className="ml-0.5 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-xs font-medium text-primary-foreground">
+                      {cartItems}
+                    </span>
+                  )}
+                </div>
+                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-primary transition-all duration-300 group-hover:w-full" />
               </div>
             );
           })}
@@ -110,6 +140,7 @@ export function Header() {
             variant="ghost"
             size="icon"
             onClick={toggleTheme}
+            className="rounded-full transition-transform hover:scale-110 hover:bg-transparent hover:text-primary"
             aria-label="Toggle theme"
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
@@ -119,22 +150,33 @@ export function Header() {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="rounded-full">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="gap-2 rounded-full pl-3 pr-4 hover:bg-accent"
+                >
                   {user.profileImage ? (
                     <img
                       src={user.profileImage}
                       alt="Profile"
-                      className="rounded-full h-8 w-8"
+                      className="h-8 w-8 rounded-full object-cover ring-2 ring-primary/20"
                     />
                   ) : (
                     <User size={20} />
                   )}
+                  <span className="hidden sm:inline-block">{user.name}</span>
+                  <ChevronDown size={14} className="text-muted-foreground" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem className="flex items-center gap-2">
-                  <User size={16} />
-                  <span>Hi! {user.name}</span>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem className="flex items-center gap-2 p-3">
+                  <User size={16} className="text-primary" />
+                  <div className="flex flex-col">
+                    <span className="font-medium">Hi! {user.name}</span>
+                    <span className="text-xs text-muted-foreground">
+                      View your profile
+                    </span>
+                  </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="flex items-center gap-2"
@@ -144,7 +186,7 @@ export function Header() {
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="flex items-center gap-2"
+                  className="flex items-center gap-2 text-red-600 focus:text-red-600"
                   onClick={handleLogout}
                 >
                   <LogOut size={16} />
@@ -153,82 +195,100 @@ export function Header() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button onClick={() => navigate("/login")}>Login</Button>
+            <Button
+              onClick={() => navigate("/login")}
+              className="rounded-full px-6 shadow-md hover:shadow-lg transition-shadow"
+            >
+              Login
+            </Button>
           )}
 
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden"
+            className="rounded-full md:hidden hover:bg-transparent hover:text-primary transition-transform hover:scale-110"
             onClick={() => setMobileMenuOpen(true)}
           >
-            <Menu size={20} />
+            <Menu size={24} />
           </Button>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div
-            className="absolute inset-0 bg-black/50"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-          <div className="absolute right-0 top-0 h-full w-3/4 bg-background p-4">
-            <div className="flex justify-end mb-4">
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <X size={20} />
-              </Button>
-            </div>
+      <div
+        className={cn(
+          "fixed inset-0 z-50 md:hidden transition-opacity duration-300",
+          mobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+      >
+        <div
+          className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+        <div
+          className={cn(
+            "absolute right-0 top-0 h-full w-3/4 max-w-sm bg-background p-6 shadow-xl transition-transform duration-300",
+            mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+          )}
+        >
+          <div className="flex items-center justify-between mb-8">
+            <span className="text-lg font-semibold">Menu</span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full hover:bg-destructive/10 hover:text-destructive"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <X size={20} />
+            </Button>
+          </div>
 
-            <div className="flex flex-col gap-4">
-              {navLinks.map((link) => {
-                if (link.isAuth && !user) return null;
-                return (
-                  <div
-                    key={link.path}
-                    className="flex items-center gap-3 py-2 px-4 rounded-lg hover:bg-accent cursor-pointer"
-                    onClick={() => {
-                      navigate(link.path);
-                      setMobileMenuOpen(false);
-                    }}
-                  >
+          <div className="flex flex-col gap-2">
+            {navLinks.map((link) => {
+              if (link.isAuth && !user) return null;
+              return (
+                <div
+                  key={link.path}
+                  className="group flex items-center gap-3 rounded-lg p-3 text-sm font-medium transition-colors hover:bg-accent"
+                  onClick={() => {
+                    navigate(link.path);
+                    setMobileMenuOpen(false);
+                  }}
+                >
+                  <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground">
                     {link.icon}
-                    <span className="font-medium">{link.label}</span>
-                    {link.notification && cartItems > 0 && (
-                      <span className="ml-auto h-5 w-5 rounded-full bg-primary text-xs flex items-center justify-center text-primary-foreground">
-                        {cartItems}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
+                  </span>
+                  <span>{link.label}</span>
+                  {link.notification && cartItems > 0 && (
+                    <span className="ml-auto flex h-6 min-w-6 items-center justify-center rounded-full bg-primary/10 px-1.5 text-xs font-medium text-primary">
+                      {cartItems}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
 
-              <div className="mt-4 border-t pt-4">
-                {user ? (
-                  <Button
-                    variant="outline"
-                    className="w-full flex items-center gap-2"
-                    onClick={handleLogout}
-                  >
-                    <LogOut size={16} />
-                    Logout
-                  </Button>
-                ) : (
-                  <Button className="w-full" onClick={() => navigate("/login")}>
-                    Login
-                  </Button>
-                )}
-              </div>
-            </div>
+          <div className="mt-auto border-t pt-4">
+            {user ? (
+              <Button
+                variant="outline"
+                className="w-full justify-start gap-2"
+                onClick={handleLogout}
+              >
+                <LogOut size={16} className="text-destructive" />
+                <span className="font-medium">Logout</span>
+              </Button>
+            ) : (
+              <Button className="w-full" onClick={() => navigate("/login")}>
+                <User size={16} className="mr-2" />
+                Login
+              </Button>
+            )}
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }
