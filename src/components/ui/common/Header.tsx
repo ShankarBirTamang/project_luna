@@ -36,7 +36,7 @@ export function Header() {
     name: string;
     profileImage?: string;
   } | null>({
-    name: "John Doe",
+    name: "Sankar Bir",
     profileImage: "/profile.jpg",
   });
   const [cartItems] = useState(3);
