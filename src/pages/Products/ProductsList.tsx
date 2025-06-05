@@ -131,13 +131,17 @@ const ProductsList = () => {
       description: "Medium-sized hoops with crystal accents",
     },
   ]);
-
   return (
     <div className="min-h-screen bg-background py-8">
-      <div className="container">
+      <div className="container px-4 md:px-6 max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-3xl font-bold">Our Collection</h1>
+        <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold">Our Collection</h1>
+            <p className="mt-2 text-muted-foreground">
+              Discover our handcrafted jewelry pieces
+            </p>
+          </div>
 
           {/* Search and Filter */}
           <div className="flex gap-4">
@@ -153,10 +157,9 @@ const ProductsList = () => {
               <SlidersHorizontal className="h-4 w-4" />
             </Button>
           </div>
-        </div>
-
+        </div>{" "}
         {/* Product Grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {products.map((product) => (
             <div
               key={product.id}
