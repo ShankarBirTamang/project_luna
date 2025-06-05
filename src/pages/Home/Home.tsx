@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Star, ChevronRight } from "lucide-react";
 import FeaturedCategories from "@/components/ui/FeaturedCategories";
+import NewArrivals from "@/components/ui/NewArrivals";
+import SpecialOffer from "@/components/ui/SpecialOffer";
 
 const Home = () => {
   const featuredCategories = [
@@ -62,6 +64,11 @@ const Home = () => {
     },
   ];
 
+  const handleSpecialOfferClick = () => {
+    // Add navigation or other logic here
+    window.location.href = "/products";
+  };
+
   return (
     <div className="bg-background">
       {/* Hero Section */}
@@ -82,46 +89,15 @@ const Home = () => {
       <FeaturedCategories categories={featuredCategories} />
 
       {/* New Arrivals */}
-      <section className="bg-accent/30 py-16">
-        <div className="container">
-          <h2 className="mb-8 text-center text-3xl font-bold">New Arrivals</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {newArrivals.map((product) => (
-              <div
-                key={product.id}
-                className="group cursor-pointer rounded-lg bg-background p-4 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <div className="aspect-square overflow-hidden rounded-lg">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
-                  />
-                </div>
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold">{product.name}</h3>
-                  <p className="mt-2 text-primary">${product.price}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <NewArrivals products={newArrivals} />
 
       {/* Special Offer */}
-      <section className="relative h-[400px] bg-[url('/images/offer-bg.jpg')] bg-cover bg-fixed bg-center">
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="container relative z-10 flex h-full flex-col items-center justify-center text-center text-white">
-          <h2 className="mb-4 text-4xl font-bold">Special Offer</h2>
-          <p className="mb-6 text-xl">Get 20% off on all diamond jewelry</p>
-          <Button
-            variant="outline"
-            className="border-2 text-white hover:bg-white hover:text-black"
-          >
-            Shop Now
-          </Button>
-        </div>
-      </section>
+      <SpecialOffer
+        title="Special Offer"
+        description="Get 20% off on all diamond jewelry"
+        backgroundImage="/images/offer-bg.jpg"
+        onButtonClick={handleSpecialOfferClick}
+      />
 
       {/* Testimonials */}
       <section className="py-16">
