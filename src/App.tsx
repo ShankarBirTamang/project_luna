@@ -1,14 +1,15 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Header from "@/components/ui/common/Header";
 
 function App() {
   return (
-    <>
-      <nav>
-        <Link to='/'>Home</Link>
-        <Link to='/product'>Product</Link>
-      </nav>
-      <Outlet />
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1">
+        <Outlet />
+      </main>
+      {/* You can add Footer component here later */}
+    </div>
   );
 }
 
